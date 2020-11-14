@@ -1,0 +1,63 @@
+import unittest
+
+
+def karatsuba(x, y):
+    """
+    Multiplies positive integers x and y using the Karatsuba multiplication algorithm,
+    which uses a divide-and-conquer strategy, and has asymptotic complexity of n ** log_2(3),
+    where n is the total number of digits in x and y.
+    The approach is to split each operand in half, forming four groups: the uppermost and
+    lowermost digits of each of x and y. Three products are computed recursively from these
+    groups and then combined to form the final product.
+    """
+    assert x > 0
+    assert y > 0
+    assert x == int(x)
+    assert y == int(y)
+    return _karatsuba(x, y)
+
+
+def _karatsuba_unsafe(x, y):
+    pass
+
+
+def _split_int(n):
+    """
+    Splits the given integer n into two integers a and b, such that a is composed
+    of the uppermost bits of n, and b is composed of the remaining lowermost bits,
+    and such that abs(a.bit_length - b.bit_length) <= 1.
+    """
+    l_n = n.bit_length()
+    l_a = l_n >> 1
+    l_b = l_n - l_a
+    a = n >> l_a
+    b = ((2 ** (l_b - 1)) - 1) & n
+    return (a, b)
+
+
+class TestSplitInt(unittest.TestCase):
+    def test_1(self):
+        a,b = _split_int(0b10)
+        self.assertEqual(a, 0b1)
+        self.assertEqual(b, 0b0)
+
+
+    def test_2(self):
+        a, b = _split_int(0b11110000)
+        self.assertEqual(a, 0b1111)
+        self.assertEqual(b, 0b0000)
+
+    def test_3(self):
+        a, b = _split_int(0b110)
+        self.assertEqual(a, 0b10)
+        self.assertEqual(b, 0b1)
+
+    def test_3(self):
+        a, b = _split_int(0b101110001)
+        self.assertEqual(a, 0b10111)
+        self.assertEqual(b, 0b0001)
+
+
+if __name__ == '__main__':
+    unittest.main()
+
