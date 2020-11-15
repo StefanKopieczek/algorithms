@@ -89,7 +89,7 @@ def _next_power_of_two(n):
     return 2 ** math.ceil(math.log2(n))
 
 
-def _pad(X, side_length, value=1):
+def _pad(X, side_length, value=0):
     """
     Given a square matrix X, adds rows and columns to the bottom and right
     with element value equal to 'value', such that the resulting side
@@ -151,12 +151,12 @@ class TestPad(MatrixTest):
     def test_two_rowcols_added(self):
         original = np.eye(4)
         expected = np.array([
-                [1, 0, 0, 0, 1, 1],
-                [0, 1, 0, 0, 1, 1],
-                [0, 0, 1, 0, 1, 1],
-                [0, 0, 0, 1, 1, 1],
-                [1, 1, 1, 1, 1, 1],
-                [1, 1, 1, 1, 1, 1]
+                [1, 0, 0, 0, 0, 0],
+                [0, 1, 0, 0, 0, 0],
+                [0, 0, 1, 0, 0, 0],
+                [0, 0, 0, 1, 0, 0],
+                [0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0]
         ])
         self.assertMatricesEqual(expected, _pad(original, 6))
 
@@ -222,6 +222,11 @@ class TestStrassen(MatrixTest):
         B = np.array([[12, 2], [19, 2]])
         self.assertMatricesEqual(np.matmul(A, B), strassen(A, B))
 
+    def test_6x6_identities(self):
+        A = np.eye(6)
+        B = np.eye(6)
+        self.assertMatricesEqual(np.eye(6), strassen(A, B))
+
     def test_8x8_identities(self):
         A = np.eye(8)
         B = np.eye(8)
@@ -252,8 +257,7 @@ class TestStrassen(MatrixTest):
 
     def test_random_matrices(self):
         for _ in range(100):
-            log2_n = np.random.randint(1, 6)
-            n = 2 ** log2_n
+            n = np.random.randint(1, 32)
             A = np.random.randint(0, 100, size=(n, n))
             B = np.random.randint(0, 100, size=(n, n))
             self.assertMatricesEqual(np.matmul(A, B), strassen(A, B))
