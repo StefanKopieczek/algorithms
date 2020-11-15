@@ -11,7 +11,7 @@ def strassen(A, B):
     A and B should be two-dimensional numpy arrays.
 
     Note that the core Strassen algorithm requires n to be a power of 2; this
-    implementation pads the operands with ones to ensure that n is such, and
+    implementation pads the operands with zeroes to ensure that n is such, and
     then strips the extra rows/columns before returning the result. In practice
     it's often better to extend to a side length that has some factor which is a
     power of two, run a few iterations of Strassen until the result has an odd
