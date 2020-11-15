@@ -15,9 +15,10 @@ def strassen(A, B):
     then strips the extra rows/columns before returning the result. In practice
     it's often better to extend to a side length that has some factor which is a
     power of two, run a few iterations of Strassen until the result has an odd
-    side length, and then do a direct product on the result. Since this is a
-    learning exercise I'll sacrifice efficiency for algorithmic purity, and
-    just extend up to a power of two.
+    side length, and then do a direct product on the result. However, since this
+    is a learning exercise I'll sacrifice efficiency for algorithmic purity, and
+    just extend up to a power of two (thus allowing Strassen to run all the way
+    to the base case).
 
     StackOverflow has some interesting observations on extension heuristics
     as well as techniques for handling rectangular matrices.
