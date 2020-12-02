@@ -77,6 +77,12 @@ def _closest_pair(points):
     median = points[midpoint][0]
     strip = [p for p in y_sorted if median - best_d <= p[0] <= median + best_d]
     for idx, q1 in enumerate(strip):
+        # We only need to search up to 7 points ahead of q1.
+        # The proof of this is complicated but basically leans on the fact that
+        # if there were a better pair more than 7 points apart, a pigeonhole
+        # principle argument can be made that contradicts minimality of the
+        # results in the left and right halves.
+        # See https://people.csail.mit.edu/indyk/6.838-old/handouts/lec17.pdf
         for q2 in strip[idx+1:idx+8]:
             d = distance(q1, q2)
             if d < best_d:
